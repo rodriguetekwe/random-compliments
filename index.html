@@ -274,7 +274,7 @@
 
     function newCompliment() {
       const name = nameInput.value.trim();
-      title.textContent = name ? `Compliment for ${name} 💕` : "Random Compliment Generator 💖";
+      title.textContent = name ? `Compliment for ${name} 💕` : "Arotek Random Compliment Generator 💖";
       const list = getList();
       const c = list[Math.floor(Math.random() * list.length)];
       box.textContent = name ? `${name}, ${c}` : c;
