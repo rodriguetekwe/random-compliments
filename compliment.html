@@ -19,73 +19,73 @@
     .card {
       background: #ffffff;
       padding: 32px 28px;
-      border-radius: 26px;
+      border-radius: 28px;
       text-align: center;
       box-shadow: 0 25px 55px rgba(0,0,0,0.15);
-      width: min(520px, 92%);
+      width: min(540px, 92%);
       position: relative;
       overflow: hidden;
     }
 
     h2 {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       font-size: 22px;
       color: #333;
     }
 
     .compliment {
       background: linear-gradient(135deg, #fff0f6, #f0f9ff);
-      border-radius: 20px;
-      padding: 22px 18px;
+      border-radius: 22px;
+      padding: 24px 18px;
       font-size: 22px;
       line-height: 1.35;
       color: #222;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       border: 2px dashed #ffd1e8;
     }
 
     input {
-      padding: 10px 14px;
-      border-radius: 16px;
+      padding: 11px 14px;
+      border-radius: 18px;
       border: 1px solid #eee;
       outline: none;
       font-size: 14px;
-      width: 200px;
-      margin-bottom: 16px;
+      width: 210px;
+      margin-bottom: 14px;
     }
 
-    .buttons {
+    .row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 10px;
     }
 
     button {
-      padding: 11px 18px;
+      padding: 11px 16px;
       border-radius: 999px;
       border: none;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
+      transition: transform 0.1s ease;
     }
 
-    #new {
-      background: #ff4d6d;
-      color: white;
+    button:active {
+      transform: scale(0.95);
     }
 
-    #copy {
-      background: #ffd166;
-      color: #333;
-    }
+    #sweet { background: #ffd1e8; }
+    #flirty { background: #ffe066; }
+    #spicy { background: #ff8fab; color: white; }
 
-    #link {
-      background: #8ecae6;
-      color: #033047;
-    }
+    #new { background: #ff4d6d; color: white; }
+    #copy { background: #bde0fe; }
+    #link { background: #cdb4db; }
+    #shot { background: #b7e4c7; }
 
     .hint {
-      margin-top: 14px;
+      margin-top: 12px;
       font-size: 12px;
       color: #666;
     }
@@ -128,71 +128,118 @@
   <div class="card">
     <h2 id="title">Random Compliment Generator 💖</h2>
 
-    <div class="compliment" id="box">Tap the button. I dare you.</div>
+    <div class="compliment" id="box">Tap a vibe. I won’t judge.</div>
 
     <input id="name" placeholder="Name, optional">
 
-    <div class="buttons">
-      <button id="new">New compliment</button>
-      <button id="copy">Copy</button>
-      <button id="link">Share link</button>
+    <div class="row">
+      <button id="sweet">Sweet 💕</button>
+      <button id="flirty">Flirty 😏</button>
+      <button id="spicy">Spicy 🌙</button>
     </div>
 
-    <div class="hint">Tip: add ?name=Ayo%20Mi to the URL</div>
+    <div class="row">
+      <button id="new">New</button>
+      <button id="copy">Copy</button>
+      <button id="link">Share</button>
+      <button id="shot">Screenshot 📸</button>
+    </div>
+
+    <div class="hint">Spicy mode unlocks automatically after 10 PM 😌</div>
 
     <div class="toast" id="toast">Copied</div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
   <script>
-    const compliments = [
-      // Sweet & playful
-      "You’re effortlessly cool.",
-      "You have main character energy.",
-      "You’re cute and competent. Dangerous combo.",
-      "You make boring things fun.",
-      "You look like you smell good.",
-      "You’re emotionally intelligent and funny. Rare.",
-      "You’re the reason group chats stay alive.",
-      "You make people feel comfortable being themselves.",
-      "You have elite vibes.",
-      "You’re lowkey impressive.",
-
-      // Goofy fun
-      "You could explain WiFi to a caveman.",
-      "You’d survive a reality show.",
-      "You’re funny on purpose, not by accident.",
-      "You’re the human version of a good playlist.",
-      "You’re weird in a good way.",
-      "You’re secretly iconic.",
-      "You’re a walking green flag.",
-      "You give top tier hugs.",
-      "You make silence comfortable.",
-      "You’re cooler than you admit.",
-
-      // Subtle flirty, giggle-worthy
-      "You have a soft confidence that’s kind of addictive.",
-      "You know exactly what you’re doing, and it shows.",
-      "You have the kind of smile that causes distractions.",
-      "You make eye contact feel intentional.",
-      "You’re attractive in a ‘why am I blushing’ way.",
-      "You have a calm, magnetic presence.",
-      "You make closeness feel natural.",
-      "You’re the kind of fine that sneaks up on people.",
-      "You make people lean in without realizing it.",
-      "You have a voice people don’t interrupt.",
-
-      // Still safe, still spicy
-      "You make effort look sexy without trying.",
-      "You have ‘walk closer’ energy.",
-      "You make compliments feel earned.",
-      "You’re attractive in a quiet, confident way.",
-      "You make people feel wanted.",
-      "You have ‘stay a little longer’ vibes.",
-      "You’re smooth without being obvious.",
-      "You make hearts beat slightly faster.",
-      "You’re charming in a dangerous way.",
-      "You’re the reason someone smiles at their phone."
+    const sweetCompliments = [
+      "You make people feel safe.",
+      "You bring calm into rooms.",
+      "You’re easy to care about.",
+      "You have a kind presence.",
+      "You make effort feel natural.",
+      "You’re emotionally steady.",
+      "You’re comforting without trying.",
+      "You make people feel seen.",
+      "You’re thoughtful in quiet ways.",
+      "You’re dependable and warm.",
+      "You listen like it matters.",
+      "You’re grounding energy.",
+      "You’re sincere.",
+      "You make days better.",
+      "You’re gentle and strong.",
+      "You’re patient in the right ways.",
+      "You’re reassuring.",
+      "You show up.",
+      "You’re considerate.",
+      "You’re easy to trust.",
+      "You bring peace.",
+      "You’re warm-hearted.",
+      "You’re quietly impressive.",
+      "You’re consistent.",
+      "You matter."
     ];
+
+    const flirtyCompliments = [
+      "You have ‘walk closer’ energy.",
+      "You’re attractive without trying.",
+      "You make eye contact dangerous.",
+      "You’re distracting in a good way.",
+      "You have quiet magnetism.",
+      "You make people lean in.",
+      "You’re smooth with timing.",
+      "You have a smile that lingers.",
+      "You make silence interesting.",
+      "You’re charming without being loud.",
+      "You’re the kind of fine that grows.",
+      "You make moments feel charged.",
+      "You’re confident in a calm way.",
+      "You have ‘stay a little longer’ vibes.",
+      "You’re subtle but powerful.",
+      "You make people curious.",
+      "You’re intriguing.",
+      "You have presence.",
+      "You hold attention.",
+      "You’re unintentionally seductive.",
+      "You leave impressions.",
+      "You’re magnetic.",
+      "You make glances linger.",
+      "You’re tempting without effort.",
+      "You’re captivating."
+    ];
+
+    const spicyCompliments = [
+      "You have ‘close the door’ energy.",
+      "You make tension feel intentional.",
+      "You look like trouble worth it.",
+      "You have ‘lights dimmed’ vibes.",
+      "You make self-control feel optional.",
+      "You feel like a slow burn.",
+      "You make anticipation dangerous.",
+      "You give ‘lean against the wall’ energy.",
+      "You make restraint impressive.",
+      "You feel like chemistry.",
+      "You look like a bad idea done right.",
+      "You make patience difficult.",
+      "You feel like a scene that fades to black.",
+      "You give ‘this could escalate’ vibes.",
+      "You make silence loud.",
+      "You have after-hours energy.",
+      "You make proximity interesting.",
+      "You feel deliberate.",
+      "You have ‘say less’ energy.",
+      "You make tension addictive.",
+      "You feel like unfinished business.",
+      "You make glances linger too long.",
+      "You feel like temptation handled well.",
+      "You look like a plot twist.",
+      "You feel like a slow exhale."
+    ];
+
+    let activeMode = "sweet";
+    const hour = new Date().getHours();
+    if (hour >= 22 || hour < 6) activeMode = "spicy";
 
     const box = document.getElementById("box");
     const nameInput = document.getElementById("name");
@@ -201,8 +248,8 @@
     const card = document.querySelector(".card");
 
     function sparkle() {
-      const emojis = ["💖","✨","💫","💕","😏"];
-      for (let i = 0; i < 10; i++) {
+      const emojis = ["💖","✨","😏","💕","🌙"];
+      for (let i = 0; i < 8; i++) {
         const e = document.createElement("div");
         e.className = "emoji";
         e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -219,18 +266,27 @@
       setTimeout(() => toast.classList.remove("show"), 900);
     }
 
+    function getList() {
+      if (activeMode === "spicy") return spicyCompliments;
+      if (activeMode === "flirty") return flirtyCompliments;
+      return sweetCompliments;
+    }
+
     function newCompliment() {
       const name = nameInput.value.trim();
       title.textContent = name ? `Compliment for ${name} 💕` : "Random Compliment Generator 💖";
-      const c = compliments[Math.floor(Math.random() * compliments.length)];
+      const list = getList();
+      const c = list[Math.floor(Math.random() * list.length)];
       box.textContent = name ? `${name}, ${c}` : c;
       sparkle();
     }
 
     document.getElementById("new").onclick = newCompliment;
+    document.getElementById("sweet").onclick = () => { activeMode = "sweet"; newCompliment(); };
+    document.getElementById("flirty").onclick = () => { activeMode = "flirty"; newCompliment(); };
+    document.getElementById("spicy").onclick = () => { activeMode = "spicy"; newCompliment(); };
 
     document.getElementById("copy").onclick = async () => {
-      if (box.textContent.includes("Tap")) newCompliment();
       await navigator.clipboard.writeText(box.textContent);
       showToast("Copied");
     };
@@ -242,6 +298,14 @@
       else url.searchParams.delete("name");
       await navigator.clipboard.writeText(url.toString());
       showToast("Link copied");
+    };
+
+    document.getElementById("shot").onclick = async () => {
+      const canvas = await html2canvas(card);
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL();
+      a.download = "compliment.png";
+      a.click();
     };
 
     const params = new URLSearchParams(window.location.search);
