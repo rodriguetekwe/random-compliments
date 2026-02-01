@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compliment Generator</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 32px 28px;
+      border-radius: 26px;
+      text-align: center;
+      box-shadow: 0 25px 55px rgba(0,0,0,0.15);
+      width: min(520px, 92%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 22px;
+      color: #333;
+    }
+
+    .compliment {
+      background: linear-gradient(135deg, #fff0f6, #f0f9ff);
+      border-radius: 20px;
+      padding: 22px 18px;
+      font-size: 22px;
+      line-height: 1.35;
+      color: #222;
+      margin-bottom: 20px;
+      border: 2px dashed #ffd1e8;
+    }
+
+    input {
+      padding: 10px 14px;
+      border-radius: 16px;
+      border: 1px solid #eee;
+      outline: none;
+      font-size: 14px;
+      width: 200px;
+      margin-bottom: 16px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    #new {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #copy {
+      background: #ffd166;
+      color: #333;
+    }
+
+    #link {
+      background: #8ecae6;
+      color: #033047;
+    }
+
+    .hint {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 22px;
+      animation: float 1.2s ease forwards;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      to {
+        transform: translateY(-120px) rotate(20deg);
+        opacity: 0;
+      }
+    }
+
+    .toast {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h2 id="title">Random Compliment Generator 💖</h2>
+
+    <div class="compliment" id="box">Tap the button. I dare you.</div>
+
+    <input id="name" placeholder="Name, optional">
+
+    <div class="buttons">
+      <button id="new">New compliment</button>
+      <button id="copy">Copy</button>
+      <button id="link">Share link</button>
+    </div>
+
+    <div class="hint">Tip: add ?name=Ayo%20Mi to the URL</div>
+
+    <div class="toast" id="toast">Copied</div>
+  </div>
+
+  <script>
+    const compliments = [
+      // Sweet & playful
+      "You’re effortlessly cool.",
+      "You have main character energy.",
+      "You’re cute and competent. Dangerous combo.",
+      "You make boring things fun.",
+      "You look like you smell good.",
+      "You’re emotionally intelligent and funny. Rare.",
+      "You’re the reason group chats stay alive.",
+      "You make people feel comfortable being themselves.",
+      "You have elite vibes.",
+      "You’re lowkey impressive.",
+
+      // Goofy fun
+      "You could explain WiFi to a caveman.",
+      "You’d survive a reality show.",
+      "You’re funny on purpose, not by accident.",
+      "You’re the human version of a good playlist.",
+      "You’re weird in a good way.",
+      "You’re secretly iconic.",
+      "You’re a walking green flag.",
+      "You give top tier hugs.",
+      "You make silence comfortable.",
+      "You’re cooler than you admit.",
+
+      // Subtle flirty, giggle-worthy
+      "You have a soft confidence that’s kind of addictive.",
+      "You know exactly what you’re doing, and it shows.",
+      "You have the kind of smile that causes distractions.",
+      "You make eye contact feel intentional.",
+      "You’re attractive in a ‘why am I blushing’ way.",
+      "You have a calm, magnetic presence.",
+      "You make closeness feel natural.",
+      "You’re the kind of fine that sneaks up on people.",
+      "You make people lean in without realizing it.",
+      "You have a voice people don’t interrupt.",
+
+      // Still safe, still spicy
+      "You make effort look sexy without trying.",
+      "You have ‘walk closer’ energy.",
+      "You make compliments feel earned.",
+      "You’re attractive in a quiet, confident way.",
+      "You make people feel wanted.",
+      "You have ‘stay a little longer’ vibes.",
+      "You’re smooth without being obvious.",
+      "You make hearts beat slightly faster.",
+      "You’re charming in a dangerous way.",
+      "You’re the reason someone smiles at their phone."
+    ];
+
+    const box = document.getElementById("box");
+    const nameInput = document.getElementById("name");
+    const title = document.getElementById("title");
+    const toast = document.getElementById("toast");
+    const card = document.querySelector(".card");
+
+    function sparkle() {
+      const emojis = ["💖","✨","💫","💕","😏"];
+      for (let i = 0; i < 10; i++) {
+        const e = document.createElement("div");
+        e.className = "emoji";
+        e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        e.style.left = Math.random() * 100 + "%";
+        e.style.bottom = "20px";
+        card.appendChild(e);
+        setTimeout(() => e.remove(), 1300);
+      }
+    }
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 900);
+    }
+
+    function newCompliment() {
+      const name = nameInput.value.trim();
+      title.textContent = name ? `Compliment for ${name} 💕` : "Random Compliment Generator 💖";
+      const c = compliments[Math.floor(Math.random() * compliments.length)];
+      box.textContent = name ? `${name}, ${c}` : c;
+      sparkle();
+    }
+
+    document.getElementById("new").onclick = newCompliment;
+
+    document.getElementById("copy").onclick = async () => {
+      if (box.textContent.includes("Tap")) newCompliment();
+      await navigator.clipboard.writeText(box.textContent);
+      showToast("Copied");
+    };
+
+    document.getElementById("link").onclick = async () => {
+      const url = new URL(window.location.href);
+      const n = nameInput.value.trim();
+      if (n) url.searchParams.set("name", n);
+      else url.searchParams.delete("name");
+      await navigator.clipboard.writeText(url.toString());
+      showToast("Link copied");
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("name")) {
+      nameInput.value = params.get("name");
+      newCompliment();
+    }
+  </script>
+</body>
+</html>
